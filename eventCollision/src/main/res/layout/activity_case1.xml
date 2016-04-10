@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0af80"
+    tools:context="com.gaozhuo.eventcollision.Case1Activity">
+
+    <com.gaozhuo.eventcollision.HorizontalScrollViewEx
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.gaozhuo.eventcollision.ListViewEx
+                android:id="@+id/listview"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="#ffffff" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="#00ff00" />
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="#0000ff" />
+
+        </LinearLayout>
+
+    </com.gaozhuo.eventcollision.HorizontalScrollViewEx>
+
+</RelativeLayout>

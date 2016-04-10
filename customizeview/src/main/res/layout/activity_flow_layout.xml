@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gaozhuo.customizeview.view.FlowLayoutActivity">
+
+    <com.gaozhuo.customizeview.view.FlowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#88cc99">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag2" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag4" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag5" />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="tag6"
+
+            />
+
+        <Button
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:text="tag7" />
+    </com.gaozhuo.customizeview.view.FlowLayout>
+
+
+</LinearLayout>
