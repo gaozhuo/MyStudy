@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.gaozhuo.commonlibrary.utils.DeviceUtils;
 import com.gaozhuo.customizeview.view.FloatingView;
 
 public class FloatingWindowActivity extends AppCompatActivity {
@@ -26,7 +27,8 @@ public class FloatingWindowActivity extends AppCompatActivity {
         findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mFloatingView.show();
+               //mFloatingView.show();
+                Log.d("gaozhuo", "model=" + DeviceUtils.getModel());
 
             }
         });

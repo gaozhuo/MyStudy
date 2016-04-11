@@ -1,5 +1,7 @@
 package com.gaozhuo.customizeview.view;
 
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -20,6 +22,7 @@ import com.gaozhuo.customizeview.R;
  * Created by gaozhuo on 2016/3/27.
  */
 public class FloatingView extends LinearLayout {
+    private static final int PADDING = 20;
     private WindowManager.LayoutParams mLayoutParams;
     private WindowManager mWindowManager;
     private GestureDetectorCompat mGestureDetector;
@@ -30,6 +33,9 @@ public class FloatingView extends LinearLayout {
     private boolean mIsShowing;
     private int mScreenWidth;
     private int mScreenHeight;
+    private final int mStatusBarHeight = getStatusBarHeight();
+    private Point[] mPoints;//屏幕上6个点的位置(4顶点+2腰)
+
 
     public FloatingView(Context context) {
         this(context, null);
@@ -43,11 +49,33 @@ public class FloatingView extends LinearLayout {
         mWindowManager.getDefaultDisplay().getSize(point);
         mScreenWidth = point.x;
         mScreenHeight = point.y;
-        Log.d("gaozhuo","width=" + mScreenWidth);
-        Log.d("gaozhuo", "height=" + mScreenHeight);
+        Log.d("gaozhuo", "mScreenWidth=" + mScreenWidth);
+        Log.d("gaozhuo", "mScreenHeight=" + mScreenHeight);
         mLayoutParams = buildParams();
         mGestureDetector = new GestureDetectorCompat(context, new MyGestureListener());
     }
+
+    private void initPoints() {
+        if (mPoints == null) {
+            mPoints = new Point[6];
+            for (int i = 0; i < mPoints.length; i++) {
+                mPoints[i] = new Point();
+            }
+            mPoints[0].x = PADDING;
+            mPoints[0].y = PADDING;
+            mPoints[1].x = mScreenWidth - PADDING;
+            mPoints[1].y = mPoints[0].y;
+            mPoints[2].x = PADDING;
+            mPoints[2].y = (mScreenHeight - mStatusBarHeight) >> 1;
+            mPoints[3].x = mPoints[1].x;
+            mPoints[3].y = mPoints[2].y;
+            mPoints[4].x = PADDING;
+            mPoints[4].y = mScreenHeight - mStatusBarHeight - PADDING;
+            mPoints[5].x = mPoints[1].x;
+            mPoints[5].y = mPoints[4].y;
+        }
+    }
+
 
     public void show() {
         if (!mIsShowing) {
@@ -58,9 +86,21 @@ public class FloatingView extends LinearLayout {
 
     public void dismiss() {
         if (mIsShowing) {
-            mWindowManager.removeView(this);
             mIsShowing = false;
+            mWindowManager.removeView(this);
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.d("gaozhuo", "onAttachedToWindow");
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Log.d("gaozhuo", "onDetachedFromWindow");
     }
 
     @Override
@@ -84,9 +124,114 @@ public class FloatingView extends LinearLayout {
                 updatePosition();
                 break;
             case MotionEvent.ACTION_UP:
+                moveToEdge();
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    private void moveToEdge() {
+        initPoints();
+        int[] location = new int[2];
+        getLocationOnScreen(location);
+
+        //计算view的中心点在屏幕上的坐标，不含状态栏
+        int centerX = location[0] + (getWidth() >> 1);
+        int centerY = location[1] - mStatusBarHeight + (getHeight() >> 1);
+        Log.d("gaozhuo", "centerX=" + centerX);
+        Log.d("gaozhuo", "centerY=" + centerY);
+
+        Point currentPoint = new Point(location[0], location[1] - mStatusBarHeight);
+        int index = calculateNearestPointIndex(new Point(centerX, centerY));
+        Point endPoint = getEndPoint(index);
+
+        ValueAnimator animator = ValueAnimator.ofObject(new PointEvaluator(), currentPoint, endPoint);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Point point = (Point) animation.getAnimatedValue();
+                mLayoutParams.x = point.x;
+                mLayoutParams.y = point.y;
+                if (mIsShowing) {
+                    mWindowManager.updateViewLayout(FloatingView.this, mLayoutParams);
+                }
+            }
+        });
+        animator.start();
+
+    }
+
+    public static class PointEvaluator implements TypeEvaluator<Point> {
+
+        @Override
+        public Point evaluate(float fraction, Point startValue, Point endValue) {
+            Point point = new Point();
+            point.x = startValue.x + (int) (fraction * (endValue.x - startValue.x));
+            point.y = startValue.y + (int) (fraction * (endValue.y - startValue.y));
+            return point;
+        }
+    }
+
+    /**
+     * 计算最近的点在mPoints中的索引
+     *
+     * @param p
+     * @return
+     */
+    private int calculateNearestPointIndex(Point p) {
+        if (mPoints == null) {
+            return 0;
+        }
+        int distance = Integer.MAX_VALUE;
+        int index = 0;
+        for (int i = 0; i < mPoints.length; i++) {
+            Point point = mPoints[i];
+            int d = (int) distance(point, p);
+            if (d < distance) {
+                distance = d;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private Point getEndPoint(int index) {
+        Point point = mPoints[index];
+        Point endPoint = new Point();
+        switch (index) {
+            case 0:
+                endPoint.x = point.x;
+                endPoint.y = point.y;
+                break;
+            case 1:
+                endPoint.x = point.x - getWidth();
+                endPoint.y = point.y;
+                break;
+            case 2:
+                endPoint.x = point.x;
+                endPoint.y = point.y - (getHeight() >> 1);
+                break;
+            case 3:
+                endPoint.x = point.x - getWidth();
+                endPoint.y = point.y - (getHeight() >> 1);
+                break;
+            case 4:
+                endPoint.x = point.x;
+                endPoint.y = point.y - getHeight();
+                break;
+            case 5:
+                endPoint.x = point.x - getWidth();
+                endPoint.y = point.y - getHeight();
+                break;
+        }
+        return endPoint;
+    }
+
+    public static double distance(Point a, Point b) {
+        int dx = a.x - b.x;
+        int dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     private void updatePosition() {
@@ -101,14 +246,12 @@ public class FloatingView extends LinearLayout {
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         }
-        Log.d("gaozhuo", "statusbar height=" + result);
         return result;
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            Log.d("gaozhuo", "onSingleTapConfirmed");
             dismiss();
             return super.onSingleTapConfirmed(e);
         }
