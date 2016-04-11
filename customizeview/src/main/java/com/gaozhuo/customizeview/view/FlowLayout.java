@@ -33,6 +33,11 @@ public class FlowLayout extends ViewGroup {
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        int freeWidth = Math.max(0, widthSpecSize - getPaddingLeft() - getPaddingRight());
+        int freeHeight = Math.max(0, heightSpecSize - getPaddingTop() - getPaddingBottom());
+
+
+
         int lineMaxHeight = 0;
         int lineWidth = 0;
         int measuredHeight = 0;
@@ -56,26 +61,17 @@ public class FlowLayout extends ViewGroup {
                 lineWidth = childWidth;
                 lineMaxHeight = childHeight;
             }
+            Log.d("gaozhuo", "measuredHeight=" + measuredHeight);
         }
 
         if (lineWidth > measuredWidth) {//处理最后一行
             measuredWidth = lineWidth;
         }
         measuredHeight += lineMaxHeight;
+        Log.d("gaozhuo", "measuredHeight=" + measuredHeight);
 
-//        if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
-//            setMeasuredDimension(measuredWidth, measuredHeight);
-//        } else if (widthSpecMode == MeasureSpec.AT_MOST) {
-//            setMeasuredDimension(measuredWidth, heightSpecSize);
-//        } else if (heightSpecMode == MeasureSpec.AT_MOST) {
-//            setMeasuredDimension(widthSpecSize, measuredHeight);
-//        } else {
-//            Log.d("gaozhuo", "match, match");
-//            setMeasuredDimension(widthSpecSize, heightSpecSize);
-//        }
-
-        measuredWidth = Math.min(measuredWidth, widthSpecSize);
-        measuredHeight = Math.min(measuredHeight, heightSpecSize);
+        measuredWidth = Math.min(measuredWidth + getPaddingLeft() + getPaddingRight(), widthSpecSize);
+        //measuredHeight = Math.min(measuredHeight + getPaddingTop() + getPaddingBottom(), heightSpecSize);
 
         setMeasuredDimension(widthSpecMode == MeasureSpec.AT_MOST ? measuredWidth : widthSpecSize, heightSpecMode == MeasureSpec.AT_MOST ? measuredHeight : heightSpecSize);
 
@@ -89,7 +85,7 @@ public class FlowLayout extends ViewGroup {
 
         int lineMaxHeight = 0;
         int lineWidth = 0;
-        int measuredHeight = 0;
+        int measuredHeight = getPaddingTop();
         int measuredWidth = 0;
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
@@ -110,7 +106,7 @@ public class FlowLayout extends ViewGroup {
                 lineMaxHeight = childHeight;
             }
 
-            int left = lineWidth - childWidth + lp.leftMargin;
+            int left = lineWidth - childWidth + lp.leftMargin + getPaddingLeft();
             int top = measuredHeight + lp.topMargin;
             int right = left + child.getMeasuredWidth();
             int bottom = top + child.getMeasuredHeight();

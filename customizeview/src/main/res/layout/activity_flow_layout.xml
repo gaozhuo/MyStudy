@@ -4,12 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gaozhuo.customizeview.view.FlowLayoutActivity">
+    tools:context=".FlowLayoutActivity">
 
     <com.gaozhuo.customizeview.view.FlowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#88cc99">
+        android:background="#88cc99"
+
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <Button
             android:layout_width="wrap_content"
