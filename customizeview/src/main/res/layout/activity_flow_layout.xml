@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#88cc99"
-
-
+        android:paddingBottom="20dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:paddingTop="30dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -38,14 +38,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="tag5" />
 
         <Button
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="tag6"
-
-            />
+            android:layout_marginLeft="20dp"
+            android:text="tag6" />
 
         <Button
             android:layout_width="400dp"

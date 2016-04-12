@@ -10,7 +10,6 @@ import android.view.ViewGroup;
  * Created by gaozhuo on 2016/4/6.
  */
 public class FlowLayout extends ViewGroup {
-    private int mChildCount;
 
     public FlowLayout(Context context) {
         super(context);
@@ -23,19 +22,17 @@ public class FlowLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int childCount = getChildCount();
-        mChildCount = childCount;
         if (childCount == 0) {
             setMeasuredDimension(0, 0);
         }
         measureChildren(widthMeasureSpec, heightMeasureSpec);
+
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
         int freeWidth = Math.max(0, widthSpecSize - getPaddingLeft() - getPaddingRight());
-        int freeHeight = Math.max(0, heightSpecSize - getPaddingTop() - getPaddingBottom());
-
 
 
         int lineMaxHeight = 0;
@@ -47,7 +44,7 @@ public class FlowLayout extends ViewGroup {
             MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
             int childWidth = child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
             int childHeight = child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
-            if (lineWidth + childWidth <= widthSpecSize) {
+            if (lineWidth + childWidth <= freeWidth) {
                 lineWidth += childWidth;
                 if (childHeight > lineMaxHeight) {
                     lineMaxHeight = childHeight;
@@ -71,7 +68,7 @@ public class FlowLayout extends ViewGroup {
         Log.d("gaozhuo", "measuredHeight=" + measuredHeight);
 
         measuredWidth = Math.min(measuredWidth + getPaddingLeft() + getPaddingRight(), widthSpecSize);
-        //measuredHeight = Math.min(measuredHeight + getPaddingTop() + getPaddingBottom(), heightSpecSize);
+        measuredHeight = Math.min(measuredHeight + getPaddingTop() + getPaddingBottom(), heightSpecSize);
 
         setMeasuredDimension(widthSpecMode == MeasureSpec.AT_MOST ? measuredWidth : widthSpecSize, heightSpecMode == MeasureSpec.AT_MOST ? measuredHeight : heightSpecSize);
 
@@ -80,19 +77,21 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int childCount = mChildCount;
+        int childCount = getChildCount();
         int widthSpecSize = getMeasuredWidth();
+
+        int freeWidth = Math.max(0, widthSpecSize - getPaddingLeft() - getPaddingRight());
 
         int lineMaxHeight = 0;
         int lineWidth = 0;
-        int measuredHeight = getPaddingTop();
+        int measuredHeight = 0;
         int measuredWidth = 0;
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
             MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
             int childWidth = child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
             int childHeight = child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
-            if (lineWidth + childWidth <= widthSpecSize) {
+            if (lineWidth + childWidth <= freeWidth) {
                 lineWidth += childWidth;
                 if (childHeight > lineMaxHeight) {
                     lineMaxHeight = childHeight;
@@ -107,7 +106,7 @@ public class FlowLayout extends ViewGroup {
             }
 
             int left = lineWidth - childWidth + lp.leftMargin + getPaddingLeft();
-            int top = measuredHeight + lp.topMargin;
+            int top = measuredHeight + lp.topMargin + getPaddingTop();
             int right = left + child.getMeasuredWidth();
             int bottom = top + child.getMeasuredHeight();
             child.layout(left, top, right, bottom);
