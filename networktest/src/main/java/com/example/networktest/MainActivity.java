@@ -18,6 +18,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.rxjava).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RxJavaActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

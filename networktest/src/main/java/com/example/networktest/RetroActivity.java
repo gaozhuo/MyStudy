@@ -6,13 +6,19 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.networktest.apiservice.PhoneService;
+import com.example.networktest.apiservice.PhoneService2;
 import com.example.networktest.entity.PhoneEntity;
 
+import retrofit.RxJavaCallAdapterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RetroActivity extends AppCompatActivity {
     //百度电话号码查询api
@@ -27,7 +33,7 @@ public class RetroActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testRetrofit();
+                testRetrofit2();
             }
         });
     }
@@ -52,6 +58,31 @@ public class RetroActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PhoneEntity> call, Throwable t) {
 
+            }
+        });
+
+    }
+
+    private void testRetrofit2() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+        PhoneService2 service = retrofit.create(PhoneService2.class);
+        Observable<PhoneEntity> observable = service.getResult(API_KEY, "18819012482");
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<PhoneEntity>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(PhoneEntity phoneEntity) {
+                if(phoneEntity != null){
+                    Log.d("gaozhuo", phoneEntity.getRetData().toString());
+                }
             }
         });
 
