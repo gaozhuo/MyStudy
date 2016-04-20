@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/customizeview" />
             <option value="$PROJECT_DIR$/eventCollision" />
             <option value="$PROJECT_DIR$/eventdispach" />
+            <option value="$PROJECT_DIR$/networktest" />
           </set>
         </option>
         <option name="myModules">
@@ -22,6 +23,7 @@
             <option value="$PROJECT_DIR$/customizeview" />
             <option value="$PROJECT_DIR$/eventCollision" />
             <option value="$PROJECT_DIR$/eventdispach" />
+            <option value="$PROJECT_DIR$/networktest" />
           </set>
         </option>
       </GradleProjectSettings>
