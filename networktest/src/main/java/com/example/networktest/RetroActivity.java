@@ -9,11 +9,16 @@ import com.example.networktest.apiservice.PhoneService;
 import com.example.networktest.apiservice.PhoneService2;
 import com.example.networktest.entity.PhoneEntity;
 
-import retrofit.RxJavaCallAdapterFactory;
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
@@ -33,21 +38,23 @@ public class RetroActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testRetrofit2();
+                testRetrofit();
             }
         });
     }
 
     private void testRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        OkHttpClient client = new OkHttpClient.Builder().addNetworkInterceptor(new LoggingInterceptor()).build();
+
+        Retrofit retrofit = new Retrofit.Builder().client(client).baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         PhoneService service = retrofit.create(PhoneService.class);
         Call<PhoneEntity> call = service.getResult(API_KEY, "18819012482");
         call.enqueue(new Callback<PhoneEntity>() {
             @Override
             public void onResponse(Call<PhoneEntity> call, Response<PhoneEntity> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     PhoneEntity phoneEntity = response.body();
-                    if(phoneEntity != null){
+                    if (phoneEntity != null) {
                         Log.d("gaozhuo", phoneEntity.getRetData().toString());
 
                     }
@@ -80,11 +87,30 @@ public class RetroActivity extends AppCompatActivity {
 
             @Override
             public void onNext(PhoneEntity phoneEntity) {
-                if(phoneEntity != null){
+                if (phoneEntity != null) {
                     Log.d("gaozhuo", phoneEntity.getRetData().toString());
                 }
             }
         });
 
+    }
+
+    class LoggingInterceptor implements Interceptor {
+        @Override
+        public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
+            Request request = chain.request();
+
+            long t1 = System.nanoTime();
+            Log.d("gaozhuo", String.format("Sending request %s on %s%n%s",
+                    request.url(), chain.connection(), request.headers()));
+
+            okhttp3.Response response = chain.proceed(request);
+
+            long t2 = System.nanoTime();
+            Log.d("gaozhuo", String.format("Received response for %s in %.1fms%n%s",
+                    response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+            return response;
+        }
     }
 }
