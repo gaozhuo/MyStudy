@@ -1,1 +1,1 @@
-include ':eventdispach', ':eventCollision', ':customizeview', ':commonlibrary', ':networktest'
+include ':eventdispach', ':eventCollision', ':customizeview', ':commonlibrary', ':networktest', ':appkeepalive'
