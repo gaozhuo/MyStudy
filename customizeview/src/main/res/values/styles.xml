@@ -12,4 +12,12 @@
         <attr name="circle_color" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="LockView">
+        <attr name="lock_lineColor" format="color"/>
+        <attr name="lock_lineWidth" format="dimension"/>
+        <attr name="lock_nodeSize" format="dimension"/>
+        <attr name="lock_normalNodeDrawable" format="color|reference"/>
+        <attr name="lock_activatedNodeDrawable" format="color|reference"/>
+    </declare-styleable>
+
 </resources>
