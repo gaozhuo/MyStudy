@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.gaozhuo.customizeview.LockViewActivity">
+
+    <com.gaozhuo.customizeview.view.LockView
+        android:id="@+id/lockView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#f5f5d2"
+        app:lock_lineColor="#ff33b5e5"
+        app:lock_lineWidth="8dp"
+        app:lock_nodeSize="24dp"
+        app:lock_normalNodeDrawable="@drawable/node_small_normal"
+        app:lock_activatedNodeDrawable="@drawable/node_small_active"
+        app:lock_activatedAnimRes="@anim/anim_node_activated"
+        app:lock_enableVibrate="true"
+        app:lock_vibrateTime="20">
+    </com.gaozhuo.customizeview.view.LockView>
+
+</RelativeLayout>

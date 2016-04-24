@@ -18,6 +18,9 @@
         <attr name="lock_nodeSize" format="dimension"/>
         <attr name="lock_normalNodeDrawable" format="color|reference"/>
         <attr name="lock_activatedNodeDrawable" format="color|reference"/>
+        <attr name="lock_activatedAnimRes" format="reference"/>
+        <attr name="lock_vibrateTime" format="integer"/>
+        <attr name="lock_enableVibrate" format="boolean"/>
     </declare-styleable>
 
 </resources>
