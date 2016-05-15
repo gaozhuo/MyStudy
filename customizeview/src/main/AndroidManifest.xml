@@ -3,7 +3,7 @@
     package="com.gaozhuo.customizeview">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,8 @@
         <activity android:name=".FloatingWindowActivity" />
         <activity android:name=".HorizontalScrollViewExActivity" />
         <activity android:name=".FlowLayoutActivity" />
-        <activity android:name=".LockViewActivity"></activity>
+        <activity android:name=".LockViewActivity" />
+        <activity android:name=".StickyLayoutActivity"></activity>
     </application>
 
 </manifest>

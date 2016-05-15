@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        findViewById(R.id.lockView).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.stickyLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LockViewActivity.class);
+                Intent intent = new Intent(MainActivity.this, StickyLayoutActivity.class);
                 startActivity(intent);
             }
         });
