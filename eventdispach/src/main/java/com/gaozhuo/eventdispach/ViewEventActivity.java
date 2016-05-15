@@ -29,7 +29,7 @@ public class ViewEventActivity extends Activity implements View.OnTouchListener,
 
 
 
-        //mLayout.setOnTouchListener(this);
+       // mLayout.setOnTouchListener(this);
         //mButton.setOnTouchListener(this);
 
         //mLayout.setOnClickListener(this);

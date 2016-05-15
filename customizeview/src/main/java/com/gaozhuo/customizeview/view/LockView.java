@@ -11,7 +11,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 
 import com.gaozhuo.customizeview.R;
 
@@ -26,7 +29,7 @@ import java.util.List;
  */
 public class LockView extends ViewGroup {
     private static final String TAG = LockView.class.getSimpleName();
-    private static final int EXTENT = 5;
+    private static final int EXTENT = 10;
     private Context mContext;
     private Paint mPaint;
     private int mLineColor;
@@ -34,7 +37,9 @@ public class LockView extends ViewGroup {
     private int mNodeSize;
     private Drawable mNormalNodeDrawable;
     private Drawable mActivatedNodeDrawable;
+    private Drawable mErrorNodeDrawable;
     private int mActivatedAnimRes;
+    private int mErrorAnimRes;
     private int mVibrateTime;
     private boolean mEnableVibrate;
     private List<NodeView> mLinkedNodes = new ArrayList<NodeView>();//已经连线的node
@@ -55,7 +60,9 @@ public class LockView extends ViewGroup {
         mNodeSize = a.getDimensionPixelSize(R.styleable.LockView_lock_nodeSize, 48);
         mNormalNodeDrawable = a.getDrawable(R.styleable.LockView_lock_normalNodeDrawable);
         mActivatedNodeDrawable = a.getDrawable(R.styleable.LockView_lock_activatedNodeDrawable);
+        mErrorNodeDrawable = a.getDrawable(R.styleable.LockView_lock_errorNodeDrawable);
         mActivatedAnimRes = a.getResourceId(R.styleable.LockView_lock_activatedAnimRes, 0);
+        mErrorAnimRes = a.getResourceId(R.styleable.LockView_lock_errorAnimRes, 0);
         mEnableVibrate = a.getBoolean(R.styleable.LockView_lock_enableVibrate, false);
         mVibrateTime = a.getInt(R.styleable.LockView_lock_vibrateTime, 20);
         init();
@@ -89,16 +96,20 @@ public class LockView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int count = getChildCount();
-        int gridSize = getMeasuredWidth() / 3;//9等分后每个方格的大小
-        int offset = (gridSize - mNodeSize) / 2;
-        for (int i = 0; i < count; i++) {
-            View child = getChildAt(i);
-            int left = (i % 3) * gridSize + offset;
-            int top = (i / 3) * gridSize + offset;
-            int right = left + mNodeSize;
-            int bottom = top + mNodeSize;
-            child.layout(left, top, right, bottom);
+        if (changed) {
+            int count = getChildCount();
+            int gridSize = getMeasuredWidth() / 3;//9等分后每个方格的大小
+            int offset = (gridSize - mNodeSize) / 2;
+            for (int i = 0; i < count; i++) {
+                View child = getChildAt(i);
+                int row = i % 3;
+                int column = i / 3;
+                int left = row * gridSize + offset;
+                int top = column * gridSize + offset;
+                int right = left + mNodeSize;
+                int bottom = top + mNodeSize;
+                child.layout(left, top, right, bottom);
+            }
         }
     }
 
@@ -115,18 +126,23 @@ public class LockView extends ViewGroup {
                     mLinkedNodes.add(currentNode);
                     currentNode.setStatus(NodeView.STATUS_ACTIVATED);
                 }
-                invalidate();
+                if (mLinkedNodes.size() > 0) {
+                    invalidate();
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 getPassword();
-                for (NodeView nodeView : mLinkedNodes) {
-                    nodeView.setStatus(NodeView.STATUS_NORMAL);
-                }
-                mLinkedNodes.clear();
                 invalidate();
                 break;
         }
         return true;
+    }
+
+    private void reset() {
+        for (NodeView nodeView : mLinkedNodes) {
+            nodeView.setStatus(NodeView.STATUS_NORMAL);
+        }
+        mLinkedNodes.clear();
     }
 
     /**
@@ -136,10 +152,10 @@ public class LockView extends ViewGroup {
      */
     private void insertMiddleNodeIfNeed(NodeView currentNode) {
         int size = mLinkedNodes.size();
-        if(size < 1){
+        if (size < 1) {
             return;
         }
-        NodeView lastNode = mLinkedNodes.get(size -1);
+        NodeView lastNode = mLinkedNodes.get(size - 1);
         if (lastNode != null) {
             int currentNum = currentNode.getNum();
             int lastNum = lastNode.getNum();
@@ -151,15 +167,15 @@ public class LockView extends ViewGroup {
             }
 
             int index = -1;
-            if (lastNum == 1 && currentNum == 3 || lastNum == 4 && currentNum == 6 || lastNum == 7 && currentNum == 9) {//水平连线情况
+            if (lastNum % 3 == 1 && currentNum == lastNum + 2) {//水平连线情况
                 index = lastNum;
-            } else if (lastNum == 1 && currentNum == 7 || lastNum == 2 && currentNum == 8 || lastNum == 3 && currentNum == 9){//竖直连线情况
+            } else if (lastNum <= 3 && currentNum == lastNum+ 6) {//竖直连线情况
                 index = (lastNum - 1) + 3;
-            }else if(lastNum == 1 && currentNum == 9 || lastNum == 3 && currentNum == 7){//对角连线情况
-               index = 4;
+            } else if (lastNum == 1 && currentNum == 9 || lastNum == 3 && currentNum == 7) {//对角连线情况
+                index = 4;
             }
-            if(index != -1){
-                NodeView middleNode  = (NodeView) getChildAt(index);
+            if (index != -1) {
+                NodeView middleNode = (NodeView) getChildAt(index);
                 middleNode.setStatus(NodeView.STATUS_ACTIVATED);
                 mLinkedNodes.add(middleNode);
             }
@@ -173,9 +189,17 @@ public class LockView extends ViewGroup {
                 sb.append(node.getNum() + "");
             }
             if (mOnPasswordListener != null) {
-                mOnPasswordListener.password(sb.toString());
+                boolean result =  mOnPasswordListener.password(sb.toString());
+                if(!result){
+                    for(NodeView node : mLinkedNodes){
+                        node.setStatus(NodeView.STATUS_ERROR);
+                    }
+                    return;
+                }
             }
         }
+
+        reset();
     }
 
     @Override
@@ -236,7 +260,19 @@ public class LockView extends ViewGroup {
 
 
     public interface OnPasswordListener {
-        void password(String password);
+        boolean password(String password);
+    }
+
+    /**
+     * 晃动动画
+     * @param counts 1秒钟晃动多少下
+     * @return
+     */
+    public static Animation shakeAnimation(int counts){
+        Animation translateAnimation = new TranslateAnimation(-3, 3, 0, 0);
+        translateAnimation.setInterpolator(new CycleInterpolator(counts));
+        translateAnimation.setDuration(150);
+        return translateAnimation;
     }
 
     private class NodeView extends View {
@@ -289,6 +325,12 @@ public class LockView extends ViewGroup {
                 } else if (status == STATUS_NORMAL) {
                     setBackgroundDrawable(mNormalNodeDrawable);
                     clearAnimation();
+                }else if(status == STATUS_ERROR){
+                    setBackgroundDrawable(mErrorNodeDrawable);
+                    if(mErrorAnimRes != 0){
+                        //startAnimation(AnimationUtils.loadAnimation(getContext(), mErrorAnimRes));
+                        startAnimation(shakeAnimation(3));
+                    }
                 }
             }
         }

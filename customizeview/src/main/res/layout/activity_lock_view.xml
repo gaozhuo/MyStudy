@@ -17,7 +17,9 @@
         app:lock_nodeSize="24dp"
         app:lock_normalNodeDrawable="@drawable/node_small_normal"
         app:lock_activatedNodeDrawable="@drawable/node_small_active"
+        app:lock_errorNodeDrawable="@drawable/node_small_error"
         app:lock_activatedAnimRes="@anim/anim_node_activated"
+        app:lock_errorAnimRes="@anim/anim_node_error"
         app:lock_enableVibrate="true"
         app:lock_vibrateTime="20">
     </com.gaozhuo.customizeview.view.LockView>

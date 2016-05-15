@@ -16,8 +16,9 @@ public class LockViewActivity extends AppCompatActivity {
         mLockView = (LockView) findViewById(R.id.lockView);
         mLockView.setOnPasswordListener(new LockView.OnPasswordListener() {
             @Override
-            public void password(String password) {
+            public boolean password(String password) {
                 Toast.makeText(LockViewActivity.this, password, Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
     }

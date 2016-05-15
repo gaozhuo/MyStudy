@@ -17,7 +17,11 @@ public class TestLinearLayout extends LinearLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.i("gaozhuo", "TestLinearLayout onInterceptTouchEvent-- action=" + ev.getAction());
-        return super.onInterceptTouchEvent(ev);
+        //return super.onInterceptTouchEvent(ev);
+        if(ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP){
+            return false;
+        }
+        return true;
 
     }
 
@@ -32,8 +36,6 @@ public class TestLinearLayout extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i("gaozhuo", "TestLinearLayout onTouchEvent-- action=" + event.getAction());
-        boolean result = super.onTouchEvent(event);
-        Log.d("gaozhuo", "result=" + result);
-        return result;
+        return super.onTouchEvent(event);
     }
 }
