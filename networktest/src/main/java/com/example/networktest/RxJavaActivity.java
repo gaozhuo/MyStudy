@@ -9,6 +9,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class RxJavaActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class RxJavaActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                test1();
+                test2();
             }
         });
     }
@@ -79,6 +80,48 @@ public class RxJavaActivity extends AppCompatActivity {
 
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(onNextAction);
 
+    }
+
+
+    private void test2() {
+        Subscriber<Integer> subscriber = new Subscriber<Integer>() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                Log.d("gaozhuo", "onStart");
+            }
+
+            @Override
+            public void onCompleted() {
+                Log.d("gaozhuo", "onCompleted");
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("gaozhuo", "onError");
+
+            }
+
+            @Override
+            public void onNext(Integer s) {
+                Log.d("gaozhuo", "s=" + s);
+
+            }
+        };
+
+        Observable.just(1, 2, 3, 4) // IO 线程，由 subscribeOn() 指定
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .map(new Func1<Integer, Integer>() {
+                    @Override
+                    public Integer call(Integer integer) {
+                        return integer + 10;
+                    }
+                }) // 新线程，由 observeOn() 指定
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);  // Android 主线程，由 observeOn() 指定
     }
 
 
