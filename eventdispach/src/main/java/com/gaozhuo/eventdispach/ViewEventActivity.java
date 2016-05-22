@@ -39,13 +39,13 @@ public class ViewEventActivity extends Activity implements View.OnTouchListener,
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.i("gaozhuo", "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
+        //Log.i("gaozhuo", "OnTouchListener--onTouch-- action=" + event.getAction() + " --" + v);
         return false;
     }
 
     @Override
     public void onClick(View v) {
-        Log.i("gaozhuo", "OnClickListener--onClick--" + v);
+        //Log.i("gaozhuo", "OnClickListener--onClick--" + v);
     }
 
     @Override

@@ -17,17 +17,12 @@ public class TestLinearLayout extends LinearLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.i("gaozhuo", "TestLinearLayout onInterceptTouchEvent-- action=" + ev.getAction());
-        //return super.onInterceptTouchEvent(ev);
-        if(ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP){
-            return false;
-        }
-        return true;
-
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.i("gaozhuo", "TestLinearLayout dispatchTouchEvent-- action=" + event.getAction());
+        //Log.i("gaozhuo", "TestLinearLayout dispatchTouchEvent-- action=" + event.getAction());
         return super.dispatchTouchEvent(event);
 //        super.dispatchTouchEvent(event);
 //        return false;

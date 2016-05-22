@@ -2,6 +2,7 @@ package com.gaozhuo.customizeview.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ListView;
 
@@ -17,31 +18,16 @@ public class ListViewEx extends ListView {
         super(context, attrs);
     }
 
-    //    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        Log.d("gaozhuo", "ListView dispatchTouchEvent");
-//        switch (ev.getActionMasked()) {
-//            case MotionEvent.ACTION_DOWN:
-//                super.dispatchTouchEvent(ev);
-//                return true;
-//            case MotionEvent.ACTION_MOVE:
-//                super.dispatchTouchEvent(ev);
-//                return true;
-//            case MotionEvent.ACTION_UP:
-//                break;
-//        }
-//
-//        boolean b = super.dispatchTouchEvent(ev);
-//        Log.d("gaozhuo", "b=" + b);
-//
-//        return b;
-//    }
-//
+
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
-        super.onTouchEvent(ev);
-
-        return false;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean result = super.dispatchTouchEvent(ev);
+        Log.d("gaozhuo", "result=" + result);
+        return result;
     }
 }
