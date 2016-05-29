@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -18,9 +17,10 @@ import android.widget.ListView;
  */
 public class StickyLayout extends LinearLayout {
     private int mLastY;
-    private View mHeaderView;
+    private View mTopView;
     private ListView mListView;
-    private boolean mIntercepted;
+    private int mTopViewHeight;
+    private boolean mIsTopViewHidden;
 
     public StickyLayout(Context context) {
         this(context, null);
@@ -39,55 +39,21 @@ public class StickyLayout extends LinearLayout {
     public boolean dispatchTouchEvent(final MotionEvent ev) {
         Log.d("gaozhuo", "dispatchTouchEvent event=" + ev.getActionMasked());
         final int y = (int) ev.getY();
-        switch (ev.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                mLastY = y;
-                mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-                    }
-
-                    @Override
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                        //Log.d("gaozhuo", "position=" + mListView.getChildAt(0).getTop());
-                        if (firstVisibleItem == 0) {
-                            int top = mListView.getChildAt(firstVisibleItem).getTop();
-                            if (top == 0) {
-                                mIntercepted = true;
-                            } else {
-                                mIntercepted = false;
-                            }
-
-                        } else {
-                            mIntercepted = false;
-                        }
-
-                    }
-                });
-
-
-                mListView.setOnTouchListener(new OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        Log.d("gaozhuo", "listview onTouch event=" + event.getActionMasked());
-                        return false;
-                    }
-                });
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (getScrollY() == mHeaderView.getHeight()) {
-
-                }
-                break;
-        }
-
         int dy = y - mLastY;
-        if(getScrollY() == mHeaderView.getHeight() && dy  >0 && mIntercepted){
+
+        /**
+         * ListView调用了getParent().requestDisallowInterceptTouchEvent(true)
+         * 导致父控件无法拦截事件
+         */
+        if (mIsTopViewHidden && dy > 0 && isListViewTop()) {
             requestDisallowInterceptTouchEvent(false);
         }
 
-        return super.dispatchTouchEvent(ev);
+        boolean result = super.dispatchTouchEvent(ev);
+
+        mLastY = y;
+
+        return result;
     }
 
     @Override
@@ -99,7 +65,7 @@ public class StickyLayout extends LinearLayout {
                 intercepted = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (needTouchEvent(ev)) {
+                if (isParentNeedTouchEvent(ev)) {
                     intercepted = true;
                 } else {
                     intercepted = false;
@@ -113,20 +79,24 @@ public class StickyLayout extends LinearLayout {
         return intercepted;
     }
 
-    private boolean needTouchEvent(MotionEvent ev) {
+    /**
+     * 父控件是否需要事件
+     *
+     * @param ev
+     * @return
+     */
+    private boolean isParentNeedTouchEvent(MotionEvent ev) {
         final int y = (int) ev.getY();
         int dy = y - mLastY;
-        if (getScrollY() == mHeaderView.getHeight() && dy < 0) {
-            Log.d("gaozhuo", "hahaha");
-            return false;
-        }
 
-        Log.d("gaozhuo", "mIntercepted=" + mIntercepted);
-
-        if(getScrollY() == mHeaderView.getHeight() && dy  >0 && mIntercepted){
+        /**
+         * 两种情况下父控件需要事件：1，topView没有完全隐藏时；2，topView完全隐藏并且
+         * ListView已滑到第一个item的顶部且继续下滑时
+         */
+        if(!mIsTopViewHidden || dy > 0 && isListViewTop()){
             return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -142,18 +112,13 @@ public class StickyLayout extends LinearLayout {
                 final int scrollY = getScrollY();
 
                 /**
-                 * 滑动的范围在0到headerView.getHeight()之间
+                 * 滑动的范围在0到 mTopViewHeight之间，已经滑动的距离问scrollY
+                 * 所以还能滑动的距离为：0 -scrollY < -dy < mTopViewHeight - scrollY
                  */
-                if (dy < 0) {//向上滑动
-                    int deltaY = Math.min(-dy, mHeaderView.getHeight() - scrollY);
-                    scrollBy(0, deltaY);
-                } else if (dy > 0) {//向下滑动
-                    int deltaY = Math.min(dy, scrollY);
-                    scrollBy(0, -deltaY);
-                }
+                int deltaY = Math.min(Math.max(-scrollY, -dy), mTopViewHeight - scrollY);
+                scrollBy(0, deltaY);
 
-                if (scrollY == mHeaderView.getHeight() && dy < 0) {
-                    Log.d("gaozhuo", "hahaha222");
+                if (mIsTopViewHidden && dy < 0) {//事件交给子控件处理
                     event.setAction(MotionEvent.ACTION_DOWN);
                     dispatchTouchEvent(event);
                 }
@@ -162,8 +127,24 @@ public class StickyLayout extends LinearLayout {
             case MotionEvent.ACTION_UP:
                 break;
         }
-        mLastY = y;
         return true;
+    }
+
+    private boolean isListViewTop() {
+        int position = mListView.getFirstVisiblePosition();
+        if (position == 0) {
+            View firstItem = mListView.getChildAt(position);
+            if (firstItem != null && firstItem.getTop() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void scrollBy(int x, int y) {
+        super.scrollBy(x, y);
+        mIsTopViewHidden = getScrollY() == mTopViewHeight;
     }
 
     @Override
@@ -172,14 +153,19 @@ public class StickyLayout extends LinearLayout {
         ViewGroup.LayoutParams lp = (LayoutParams) mListView.getLayoutParams();
         lp.height = getMeasuredHeight();
         mListView.setLayoutParams(lp);
-        Log.d("gaozhuo", "lp.height=" + lp.height);
+    }
 
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mTopViewHeight = mTopView.getMeasuredHeight();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mHeaderView = getChildAt(0);
+        mTopView = getChildAt(0);
         mListView = (ListView) getChildAt(1);
     }
 }

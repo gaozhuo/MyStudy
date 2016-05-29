@@ -15,17 +15,14 @@ public class TestButton extends Button {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         Log.i("gaozhuo", "TestButton dispatchTouchEvent-- action=" + event.getAction());
-        return super.dispatchTouchEvent(event);
-        //super.dispatchTouchEvent(event);
-        //return false;
+        //return super.dispatchTouchEvent(event);
+        return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i("gaozhuo", "TestButton onTouchEvent-- action=" + event.getAction());
-        //return super.onTouchEvent(event);
-        return false;
-
+        return super.onTouchEvent(event);
     }
 
 
