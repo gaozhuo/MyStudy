@@ -23,7 +23,8 @@
         <activity android:name=".HorizontalScrollViewExActivity" />
         <activity android:name=".FlowLayoutActivity" />
         <activity android:name=".LockViewActivity" />
-        <activity android:name=".StickyLayoutActivity"></activity>
+        <activity android:name=".StickyLayoutActivity" />
+        <activity android:name=".LeftDrawerLayoutActivity"></activity>
     </application>
 
 </manifest>

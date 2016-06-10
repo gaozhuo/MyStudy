@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("FlowLayout");
         mData.add("Lock View");
         mData.add("StickyLayout");
+        mData.add("LeftDrawerLayout");
 
     }
 
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 5:
                 intent = new Intent(MainActivity.this, StickyLayoutActivity.class);
+                startActivity(intent);
+            case 6:
+                intent = new Intent(MainActivity.this, LeftDrawerLayoutActivity.class);
                 startActivity(intent);
                 break;
         }
