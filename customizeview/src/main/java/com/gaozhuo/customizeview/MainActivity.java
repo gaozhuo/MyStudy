@@ -1,50 +1,87 @@
 package com.gaozhuo.customizeview;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private List<String> mData = new ArrayList<>();
+    private MyAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.circle).setOnClickListener(new View.OnClickListener() {
+        initData();
+        initView();
+    }
+
+    private void initData() {
+        mData.add("简单圆");
+        mData.add("浮窗");
+        mData.add("HorizontalScrollViewEx");
+        mData.add("FlowLayout");
+        mData.add("Lock View");
+        mData.add("StickyLayout");
+
+    }
+
+    private void initView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mAdapter = new MyAdapter(this, mData);
+        mAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CircleActivity.class);
-                startActivity(intent);
+            public void onItemClick(View itemView, int position) {
+                Log.d("gaozhuo", "position=" + position);
+                MainActivity.this.onItemClick(position);
             }
         });
-        findViewById(R.id.floatingWindow).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FloatingWindowActivity.class);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void onItemClick(int position) {
+        Intent intent = null;
+        switch (position) {
+            case 0:
+                intent = new Intent(MainActivity.this, CircleActivity.class);
                 startActivity(intent);
-            }
-        });
-        findViewById(R.id.horizontalScroll).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HorizontalScrollViewExActivity.class);
+                break;
+            case 1:
+                intent = new Intent(MainActivity.this, FloatingWindowActivity.class);
                 startActivity(intent);
-            }
-        });
-        findViewById(R.id.flowLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FlowLayoutActivity.class);
+                break;
+            case 2:
+                intent = new Intent(MainActivity.this, HorizontalScrollViewExActivity.class);
                 startActivity(intent);
-            }
-        });
-        findViewById(R.id.stickyLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StickyLayoutActivity.class);
+                break;
+            case 3:
+                intent = new Intent(MainActivity.this, FlowLayoutActivity.class);
                 startActivity(intent);
-            }
-        });
+                break;
+            case 4:
+                intent = new Intent(MainActivity.this, LockViewActivity.class);
+                startActivity(intent);
+                break;
+            case 5:
+                intent = new Intent(MainActivity.this, StickyLayoutActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
