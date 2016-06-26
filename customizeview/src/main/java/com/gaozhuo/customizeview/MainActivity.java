@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.gaozhuo.customizeview.adapter.MyAdapter;
 import com.gaozhuo.customizeview.views.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("Lock View");
         mData.add("StickyLayout");
         mData.add("LeftDrawerLayout");
+        mData.add("Gallery");
 
     }
 
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             case 6:
                 intent = new Intent(MainActivity.this, LeftDrawerLayoutActivity.class);
+                startActivity(intent);
+            case 7:
+                intent = new Intent(MainActivity.this, GalleryActivity.class);
                 startActivity(intent);
                 break;
         }

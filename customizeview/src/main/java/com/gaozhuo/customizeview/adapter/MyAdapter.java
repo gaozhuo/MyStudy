@@ -1,4 +1,4 @@
-package com.gaozhuo.customizeview;
+package com.gaozhuo.customizeview.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.gaozhuo.customizeview.R;
 
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
 
