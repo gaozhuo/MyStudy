@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.gaozhuo.commonlibrary.utils.DeviceUtils;
 import com.gaozhuo.customizeview.views.SmoothImageView;
 
 public class ImageViewerActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class ImageViewerActivity extends AppCompatActivity {
     private void initVariables() {
         mImageUrl = getIntent().getStringExtra("imageUrl");
         mSrcRect = getIntent().getParcelableExtra("srcRect");
+        mSrcRect.offset(0, -DeviceUtils.getStatusBarHeight(this));
     }
 
     private void initView() {
