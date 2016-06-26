@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.gaozhuo.customizeview.LockViewActivity">
 
-    <com.gaozhuo.customizeview.view.LockView
+    <com.gaozhuo.customizeview.views.LockView
         android:id="@+id/lockView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +22,6 @@
         app:lock_errorAnimRes="@anim/anim_node_error"
         app:lock_enableVibrate="true"
         app:lock_vibrateTime="20">
-    </com.gaozhuo.customizeview.view.LockView>
+    </com.gaozhuo.customizeview.views.LockView>
 
 </RelativeLayout>

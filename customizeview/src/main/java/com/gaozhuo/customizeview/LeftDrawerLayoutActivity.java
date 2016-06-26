@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.gaozhuo.customizeview.view.LeftDrawerLayout;
+import com.gaozhuo.customizeview.views.LeftDrawerLayout;
 
 public class LeftDrawerLayoutActivity extends AppCompatActivity {
     private LeftDrawerLayout mLeftDrawerLayout;

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".FlowLayoutActivity">
 
-    <com.gaozhuo.customizeview.view.FlowLayout
+    <com.gaozhuo.customizeview.views.FlowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#88cc99"
@@ -51,7 +51,7 @@
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:text="tag7" />
-    </com.gaozhuo.customizeview.view.FlowLayout>
+    </com.gaozhuo.customizeview.views.FlowLayout>
 
 
 </LinearLayout>

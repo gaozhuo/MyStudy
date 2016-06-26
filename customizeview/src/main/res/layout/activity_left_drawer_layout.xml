@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.gaozhuo.customizeview.view.LeftDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.gaozhuo.customizeview.views.LeftDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/leftDrawerLayout"
     android:layout_width="match_parent"
@@ -83,4 +83,4 @@
 
     </LinearLayout>
 
-</com.gaozhuo.customizeview.view.LeftDrawerLayout>
+</com.gaozhuo.customizeview.views.LeftDrawerLayout>

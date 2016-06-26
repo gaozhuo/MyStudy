@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".StickyLayoutActivity">
 
-    <com.gaozhuo.customizeview.view.StickyLayout
+    <com.gaozhuo.customizeview.views.StickyLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,12 +23,12 @@
 
         </RelativeLayout>
 
-        <com.gaozhuo.customizeview.view.ListViewEx
+        <com.gaozhuo.customizeview.views.ListViewEx
             android:id="@+id/listView"
             android:background="#88f7df"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </com.gaozhuo.customizeview.view.StickyLayout>
+    </com.gaozhuo.customizeview.views.StickyLayout>
 
 </RelativeLayout>

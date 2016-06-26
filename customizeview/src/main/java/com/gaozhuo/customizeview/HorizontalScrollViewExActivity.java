@@ -3,7 +3,6 @@ package com.gaozhuo.customizeview;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gaozhuo.commonlibrary.utils.DeviceUtils;
-import com.gaozhuo.customizeview.view.HorizontalScrollViewEx;
+import com.gaozhuo.customizeview.views.HorizontalScrollViewEx;
 
 import java.util.ArrayList;
 

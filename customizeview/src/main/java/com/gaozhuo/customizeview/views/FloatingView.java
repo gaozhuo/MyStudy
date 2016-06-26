@@ -1,4 +1,4 @@
-package com.gaozhuo.customizeview.view;
+package com.gaozhuo.customizeview.views;
 
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;

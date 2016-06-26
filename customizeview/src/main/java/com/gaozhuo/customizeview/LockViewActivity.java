@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.gaozhuo.customizeview.view.LockView;
+import com.gaozhuo.customizeview.views.LockView;
 
 public class LockViewActivity extends AppCompatActivity {
     private LockView mLockView;

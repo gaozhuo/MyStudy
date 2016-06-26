@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.gaozhuo.customizeview.HorizontalScrollViewExActivity">
 
-    <com.gaozhuo.customizeview.view.HorizontalScrollViewEx
+    <com.gaozhuo.customizeview.views.HorizontalScrollViewEx
         android:id="@+id/horizontalScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
