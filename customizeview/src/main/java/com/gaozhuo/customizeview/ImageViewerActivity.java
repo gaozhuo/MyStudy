@@ -6,8 +6,8 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Window;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.gaozhuo.commonlibrary.utils.DeviceUtils;
 import com.gaozhuo.customizeview.views.SmoothImageView;
@@ -37,6 +37,8 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     private void initView() {
         mImageView = (SmoothImageView) findViewById(R.id.imageView);
+        mImageView.setSrcRect(mSrcRect);
+        mImageView.transformIn();
         Log.d(TAG, "imageUrl=" + mImageUrl);
         Glide.with(this).load(mImageUrl).into(mImageView);
     }
