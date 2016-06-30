@@ -1,5 +1,6 @@
 package com.gaozhuo.customizeview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -53,5 +54,8 @@ public class ImageViewerActivity extends AppCompatActivity {
             intent.putExtra("srcRect", srcRect);
         }
         context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) context).overridePendingTransition(0, 0);
+        }
     }
 }

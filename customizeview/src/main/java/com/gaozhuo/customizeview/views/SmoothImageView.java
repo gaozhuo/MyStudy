@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -69,11 +70,17 @@ public class SmoothImageView extends ImageView {
             mIsInited = true;
         }
 
+        int dx = (int) ((mTransformParam.rect.width() - mDrawableWidth * mTransformParam.scale) * 0.5f);
+        int dy = (int) ((mTransformParam.rect.height() - mDrawableHeight * mTransformParam.scale) * 0.5f);
+
         canvas.save();
-        canvas.translate(mTransformParam.rect.left, mTransformParam.rect.top);
+        canvas.translate(mTransformParam.rect.left + dx, mTransformParam.rect.top + dy);
         canvas.clipRect(0, 0, mTransformParam.rect.width(), mTransformParam.rect.height());
         canvas.scale(mTransformParam.scale, mTransformParam.scale);
+        Rect b = drawable.getBounds();
+        Log.d("gaozhuo","b1=" + b.toString());
         drawable.draw(canvas);
+        Log.d("gaozhuo","b2=" + b.toString());
         canvas.restore();
 
     }
