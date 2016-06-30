@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -30,6 +31,7 @@ public class SmoothImageView extends ImageView {
     private int mDrawableWidth;
     private int mDrawableHeight;
     private boolean mHasAnimation;
+    private Matrix mMatrix = new Matrix();
 
     public SmoothImageView(Context context) {
         super(context);
@@ -72,11 +74,15 @@ public class SmoothImageView extends ImageView {
 
         int dx = (int) ((mTransformParam.rect.width() - mDrawableWidth * mTransformParam.scale) * 0.5f);
         int dy = (int) ((mTransformParam.rect.height() - mDrawableHeight * mTransformParam.scale) * 0.5f);
+        mMatrix.reset();
+        mMatrix.setScale(mTransformParam.scale, mTransformParam.scale);
+        mMatrix.postTranslate(dx, dy);
 
         canvas.save();
-        canvas.translate(mTransformParam.rect.left + dx, mTransformParam.rect.top + dy);
+        canvas.translate(mTransformParam.rect.left, mTransformParam.rect.top);
         canvas.clipRect(0, 0, mTransformParam.rect.width(), mTransformParam.rect.height());
-        canvas.scale(mTransformParam.scale, mTransformParam.scale);
+        //canvas.scale(mTransformParam.scale, mTransformParam.scale);
+        canvas.concat(mMatrix);
         Rect b = drawable.getBounds();
         Log.d("gaozhuo","b1=" + b.toString());
         drawable.draw(canvas);
