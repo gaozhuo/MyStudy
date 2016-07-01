@@ -75,14 +75,16 @@ public class SmoothImageView extends ImageView {
         int dx = (int) ((mTransformParam.rect.width() - mDrawableWidth * mTransformParam.scale) * 0.5f);
         int dy = (int) ((mTransformParam.rect.height() - mDrawableHeight * mTransformParam.scale) * 0.5f);
         mMatrix.reset();
-        mMatrix.setScale(mTransformParam.scale, mTransformParam.scale);
+        //mMatrix.setScale(mTransformParam.scale, mTransformParam.scale);
         mMatrix.postTranslate(dx, dy);
 
         canvas.save();
         canvas.translate(mTransformParam.rect.left, mTransformParam.rect.top);
         canvas.clipRect(0, 0, mTransformParam.rect.width(), mTransformParam.rect.height());
-        //canvas.scale(mTransformParam.scale, mTransformParam.scale);
-        canvas.concat(mMatrix);
+
+        //canvas.concat(mMatrix);
+        canvas.translate(dx, dy);
+        canvas.scale(mTransformParam.scale, mTransformParam.scale);
         Rect b = drawable.getBounds();
         Log.d("gaozhuo","b1=" + b.toString());
         drawable.draw(canvas);
