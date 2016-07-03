@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -38,10 +39,24 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     private void initView() {
         mImageView = (SmoothImageView) findViewById(R.id.imageView);
+        mImageView.setOnTransformListener(new SmoothImageView.OnTransformListener() {
+            @Override
+            public void onTransformComplete(int state) {
+                if(state == SmoothImageView.STATE_TRANSFORM_OUT){
+                    finish();
+                    overridePendingTransition(0, 0);
+                }
+            }
+        });
         mImageView.setSrcRect(mSrcRect);
         mImageView.transformIn();
         Log.d(TAG, "imageUrl=" + mImageUrl);
         Glide.with(this).load(mImageUrl).into(mImageView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mImageView.transformOut();
     }
 
     public static void openUI(Context context, String imageUrl, ImageView srcImageView) {
