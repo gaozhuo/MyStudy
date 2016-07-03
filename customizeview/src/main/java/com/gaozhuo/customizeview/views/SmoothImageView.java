@@ -19,11 +19,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
+import uk.co.senab.photoview.PhotoView;
+
 /**
  * @author gaozhuo
  * @date 2016/5/15
  */
-public class SmoothImageView extends ImageView {
+public class SmoothImageView extends PhotoView {
     private static final String TAG = SmoothImageView.class.getSimpleName();
     public static final int STATE_TRANSFORM_NONE = 0;//没有动画
     public static final int STATE_TRANSFORM_IN = 1;//进入动画
@@ -37,7 +39,6 @@ public class SmoothImageView extends ImageView {
     private int mState = STATE_TRANSFORM_NONE;
     private int mDrawableWidth;
     private int mDrawableHeight;
-    private boolean mHasAnimation;
     private OnTransformListener mOnTransformListener;
     private Paint mPaint = new Paint();
 
@@ -51,10 +52,10 @@ public class SmoothImageView extends ImageView {
 
     public SmoothImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init2();
     }
 
-    private void init() {
+    private void init2() {
         mPaint.setStyle(Paint.Style.FILL);
         //background_material_dark
         mPaint.setColor(0xff303030);
@@ -70,7 +71,8 @@ public class SmoothImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (!mHasAnimation) {//没有动画
+        Log.d("gaozhuo", "onDraw");
+        if (mState == STATE_TRANSFORM_NONE) {//没有动画
             mPaint.setAlpha(255);
             canvas.drawPaint(mPaint);
             super.onDraw(canvas);
@@ -181,13 +183,11 @@ public class SmoothImageView extends ImageView {
     }
 
     public void transformIn() {
-        mHasAnimation = true;
         mState = STATE_TRANSFORM_IN;
         mIsInited = false;
     }
 
     public void transformOut() {
-        mHasAnimation = true;
         mState = STATE_TRANSFORM_OUT;
         mIsInited = false;
         invalidate();
@@ -216,8 +216,8 @@ public class SmoothImageView extends ImageView {
             return;
         }
 
-        animator.setDuration(3000);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(300);
+        //animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -234,6 +234,9 @@ public class SmoothImageView extends ImageView {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                if(mState == STATE_TRANSFORM_IN){
+                    mState = STATE_TRANSFORM_NONE;
+                }
                 if (mOnTransformListener != null) {
                     mOnTransformListener.onTransformComplete(mState);
                 }
