@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("StickyLayout");
         mData.add("LeftDrawerLayout");
         mData.add("Gallery");
+        mData.add("SwipeDeleteList");
 
     }
 
@@ -87,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             case 7:
                 intent = new Intent(MainActivity.this, GalleryActivity.class);
+                startActivity(intent);
+                break;
+            case 8:
+                intent = new Intent(MainActivity.this, SwipeDeleteListViewActivity.class);
                 startActivity(intent);
                 break;
         }

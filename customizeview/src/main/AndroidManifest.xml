@@ -27,10 +27,11 @@
         <activity android:name=".LockViewActivity" />
         <activity android:name=".StickyLayoutActivity" />
         <activity android:name=".LeftDrawerLayoutActivity" />
-        <activity android:name=".GalleryActivity"></activity>
+        <activity android:name=".GalleryActivity" />
         <activity
             android:name=".ImageViewerActivity"
             android:theme="@style/Theme.Transparent" />
+        <activity android:name=".SwipeDeleteListViewActivity"></activity>
     </application>
 
 </manifest>
