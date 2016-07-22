@@ -27,5 +27,21 @@
         android:textSize="16sp"
         tools:text="请选择您取消订单的原因"/>
 
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+
 
 </LinearLayout>
