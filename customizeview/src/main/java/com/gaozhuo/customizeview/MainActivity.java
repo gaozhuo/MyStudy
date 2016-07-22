@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("LeftDrawerLayout");
         mData.add("Gallery");
         mData.add("SwipeDeleteList");
-
+        mData.add("Custom Dialog");
     }
 
     private void initView() {
@@ -89,9 +89,12 @@ public class MainActivity extends AppCompatActivity {
             case 7:
                 intent = new Intent(MainActivity.this, GalleryActivity.class);
                 startActivity(intent);
-                break;
             case 8:
                 intent = new Intent(MainActivity.this, SwipeDeleteListViewActivity.class);
+                startActivity(intent);
+                break;
+            case 9:
+                intent = new Intent(MainActivity.this, DialogActivity.class);
                 startActivity(intent);
                 break;
         }
