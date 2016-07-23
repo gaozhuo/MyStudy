@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ListView;
 
+
 /**
  * 带滑动删除的ListView
  *
  * @author gaozhuo
- * @date 2016/5/15
+ * @date 2016/7/23
  */
 public class SwipeDeleteListView extends ListView {
     private View mItemView;//滑动的item
@@ -54,14 +55,14 @@ public class SwipeDeleteListView extends ListView {
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                int dx = x- mLastX;
+                int dx = x - mLastX;
                 int dy = y - mLastY;
 
-                Log.d("gaozhuo", "dx=" +dx);
-                Log.d("gaozhuo", "dy=" +dy);
+                Log.d("gaozhuo", "dx=" + dx);
+                Log.d("gaozhuo", "dy=" + dy);
 
 
-                if(isSwipe(dx,dy)){
+                if (isSwipe(dx, dy)) {
                     Log.d("gaozhuo", "isSwipe");
                     mItemView.scrollBy(-dx, 0);
 
@@ -76,14 +77,12 @@ public class SwipeDeleteListView extends ListView {
             case MotionEvent.ACTION_UP:
                 break;
         }
-        mLastX = x;
-        mLastY = y;
         return super.onTouchEvent(ev);
     }
 
     private boolean isSwipe(int dx, int dy) {
         //mItemView != null 且横向滑动时才可以滑动item
-        if(mItemView != null && Math.abs(dx) > mTouchSlop && Math.abs(dy) < mTouchSlop){
+        if (mItemView != null && Math.abs(dx) > mTouchSlop && Math.abs(dy) < mTouchSlop) {
             return true;
         }
         return false;
@@ -93,9 +92,9 @@ public class SwipeDeleteListView extends ListView {
         int x = (int) ev.getX();
         int y = (int) ev.getY();
         int position = pointToPosition(x, y);
-        if(position == ListView.INVALID_POSITION){
+        if (position == ListView.INVALID_POSITION) {
             return;
         }
-        mItemView = getChildAt(position -  getFirstVisiblePosition());
+        mItemView = getChildAt(position - getFirstVisiblePosition());
     }
 }
