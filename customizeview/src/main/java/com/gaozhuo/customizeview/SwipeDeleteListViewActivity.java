@@ -28,7 +28,7 @@ public class SwipeDeleteListViewActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 20; i++) {
             mData.add("item " + i);
         }
     }
