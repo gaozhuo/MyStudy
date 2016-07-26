@@ -32,6 +32,7 @@
             android:name=".ImageViewerActivity"
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".SwipeDeleteListViewActivity"></activity>
+        <activity android:name=".DialogActivity"/>
     </application>
 
 </manifest>
