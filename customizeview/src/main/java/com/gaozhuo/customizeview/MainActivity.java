@@ -83,12 +83,15 @@ public class MainActivity extends AppCompatActivity {
             case 5:
                 intent = new Intent(MainActivity.this, StickyLayoutActivity.class);
                 startActivity(intent);
+                break;
             case 6:
                 intent = new Intent(MainActivity.this, LeftDrawerLayoutActivity.class);
                 startActivity(intent);
+                break;
             case 7:
                 intent = new Intent(MainActivity.this, GalleryActivity.class);
                 startActivity(intent);
+                break;
             case 8:
                 intent = new Intent(MainActivity.this, SwipeDeleteListViewActivity.class);
                 startActivity(intent);

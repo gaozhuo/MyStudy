@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     tools:context="com.gaozhuo.customizeview.SwipeDeleteListViewActivity">
 
     <com.gaozhuo.customizeview.views.SwipeDeleteListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>

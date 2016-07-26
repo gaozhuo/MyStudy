@@ -28,7 +28,7 @@ public class SwipeDeleteListViewActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             mData.add("item " + i);
         }
     }
@@ -37,5 +37,12 @@ public class SwipeDeleteListViewActivity extends AppCompatActivity {
         mListView = (SwipeDeleteListView) findViewById(R.id.listView);
         mAdapter = new ArrayAdapter<String>(this, R.layout.swipe_delete_list_item, R.id.title, mData);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemRemovedListener(new SwipeDeleteListView.OnItemRemovedListener() {
+            @Override
+            public void onItemRemoved(int position) {
+                mData.remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
