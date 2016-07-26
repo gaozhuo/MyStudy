@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.gaozhuo.customizeview.dialog.EditDialog;
 import com.gaozhuo.customizeview.dialog.OrderCancelDialog;
 
 public class DialogActivity extends AppCompatActivity {
@@ -24,6 +25,17 @@ public class DialogActivity extends AppCompatActivity {
                         .setBtn2Desc("告知助手取消原因，助手会尽快帮你处理");
                 builder.setBtn1Enabled(false);
                 OrderCancelDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditDialog.Builder builder = new EditDialog.Builder(DialogActivity.this);
+                builder.setTitle("联系助手处理")
+                        .setDesc("告知助手取消原因，助手会尽快帮你处理");
+                EditDialog dialog = builder.create();
                 dialog.show();
             }
         });
