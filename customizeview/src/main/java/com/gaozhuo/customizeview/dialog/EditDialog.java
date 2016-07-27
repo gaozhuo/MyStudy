@@ -3,11 +3,14 @@ package com.gaozhuo.customizeview.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaozhuo.customizeview.R;
@@ -23,8 +26,6 @@ public class EditDialog extends Dialog {
     private String mConfirmBtnText;
     private OnClickListener mConfirmOnClickListener;
     private OnClickListener mCancelOnClickListener;
-    private boolean mCancelBtnEnabled = true;
-    private boolean mConfirmBtnEnabled = true;
 
     protected EditDialog(Context context, Builder builder) {
         super(context, R.style.EditDialog);
@@ -34,8 +35,6 @@ public class EditDialog extends Dialog {
         mConfirmBtnText = builder.mConfirmBtnText;
         mConfirmOnClickListener = builder.mConfirmOnClickListener;
         mCancelOnClickListener = builder.mCancelOnClickListener;
-        mCancelBtnEnabled = builder.mCancelBtnEnabled;
-        mConfirmBtnEnabled = builder.mConfirmBtnEnabled;
     }
 
 
@@ -50,7 +49,8 @@ public class EditDialog extends Dialog {
         desc.setText(mDesc);
 
 
-        Button confirm = (Button) findViewById(R.id.confirm);
+        final Button confirm = (Button) findViewById(R.id.confirm);
+        confirm.setText(mConfirmBtnText);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,14 +59,41 @@ public class EditDialog extends Dialog {
                 }
             }
         });
+        confirm.setEnabled(false);
+        confirm.setAlpha(0.4f);
 
         Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setText(mCancelBtnText);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
                 if (mCancelOnClickListener != null) {
                     mCancelOnClickListener.onClick(EditDialog.this, 1);
+                }
+            }
+        });
+
+        EditText editText = (EditText) findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() >0){
+                    confirm.setEnabled(true);
+                    confirm.setAlpha(1.0f);
+                }else {
+                    confirm.setEnabled(false);
+                    confirm.setAlpha(0.4f);
                 }
             }
         });
@@ -84,12 +111,10 @@ public class EditDialog extends Dialog {
         private Context mContext;
         private String mTitle;
         private String mDesc;
-        private String mCancelBtnText;
-        private String mConfirmBtnText;
+        private String mCancelBtnText = "取消";
+        private String mConfirmBtnText = "提交";
         private OnClickListener mConfirmOnClickListener;
         private OnClickListener mCancelOnClickListener;
-        private boolean mCancelBtnEnabled = true;
-        private boolean mConfirmBtnEnabled = true;
 
         public Builder(Context context) {
             mContext = context;
@@ -110,15 +135,11 @@ public class EditDialog extends Dialog {
             return this;
         }
 
-        public Builder setCancelBtnEnabled(boolean enabled) {
-            mCancelBtnEnabled = enabled;
+        public Builder setConfirmOnClickListener(OnClickListener listener) {
+            mConfirmOnClickListener = listener;
             return this;
         }
 
-        public Builder setConfirmBtnEnabled(boolean enabled) {
-            mConfirmBtnEnabled = enabled;
-            return this;
-        }
 
         public Builder setConfirmBtnText(String confirmBtnText) {
             this.mConfirmBtnText = confirmBtnText;
