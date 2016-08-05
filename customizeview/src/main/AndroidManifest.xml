@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gaozhuo.customizeview">
+          package="com.gaozhuo.customizeview">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -15,24 +15,26 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CircleActivity" />
-        <activity android:name=".FloatingWindowActivity" />
-        <activity android:name=".HorizontalScrollViewExActivity" />
-        <activity android:name=".FlowLayoutActivity" />
-        <activity android:name=".LockViewActivity" />
-        <activity android:name=".StickyLayoutActivity" />
-        <activity android:name=".LeftDrawerLayoutActivity" />
-        <activity android:name=".GalleryActivity" />
+        <activity android:name=".CircleActivity"/>
+        <activity android:name=".FloatingWindowActivity"/>
+        <activity android:name=".HorizontalScrollViewExActivity"/>
+        <activity android:name=".FlowLayoutActivity"/>
+        <activity android:name=".LockViewActivity"/>
+        <activity android:name=".StickyLayoutActivity"/>
+        <activity android:name=".LeftDrawerLayoutActivity"/>
+        <activity android:name=".GalleryActivity"/>
         <activity
             android:name=".ImageViewerActivity"
-            android:theme="@style/Theme.Transparent" />
-        <activity android:name=".SwipeDeleteListViewActivity"></activity>
+            android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".SwipeDeleteListViewActivity"/>
         <activity android:name=".DialogActivity"/>
+        <activity android:name=".MultiImageViewerActivity">
+        </activity>
     </application>
 
 </manifest>

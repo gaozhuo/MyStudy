@@ -67,6 +67,7 @@ public class OrderCancelDialog extends Dialog {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 if (mBtn1OnClickListener != null) {
                     mBtn1OnClickListener.onClick(OrderCancelDialog.this, 0);
                 }
@@ -77,6 +78,7 @@ public class OrderCancelDialog extends Dialog {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 if (mBtn2OnClickListener != null) {
                     mBtn2OnClickListener.onClick(OrderCancelDialog.this, 1);
                 }
