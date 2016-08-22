@@ -1,47 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-              android:paddingBottom="11dp"
-              android:paddingLeft="7.5dp"
-              android:paddingRight="7.5dp"
-              android:paddingTop="11dp">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_white_corner_dialog_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="11dp"
+        android:paddingLeft="7.5dp"
+        android:paddingRight="7.5dp"
+        android:paddingTop="11dp">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            tools:text="取消订单"/>
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="#aaaaaa"
+            android:textSize="12sp"
+            tools:text="请选择您取消订单的原因"/>
+
+        <RelativeLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_circle_corner_bg"
+            android:paddingBottom="7.5dp"
+            android:paddingLeft="7.5dp"
+            android:paddingRight="7.7dp"
+            android:paddingTop="7.5dp"
+            android:enabled="false">
+
+            <ImageView
+                android:id="@+id/icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_cancel"/>
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7.5dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/icon1"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                tools:text="直接取消订单"/>
+
+            <TextView
+                android:id="@+id/desc1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text1"
+                android:layout_marginLeft="7.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/icon1"
+                android:textColor="#aaaaaa"
+                android:textSize="14sp"
+                tools:text="该订单已超过48小时未处理，你可以直接取消订单"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector_circle_corner_bg"
+            android:clickable="true"
+            android:paddingBottom="7.5dp"
+            android:paddingLeft="7.5dp"
+            android:paddingRight="7.7dp"
+            android:paddingTop="7.5dp">
+
+            <ImageView
+                android:id="@+id/icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_assistor"/>
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7.5dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/icon2"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                tools:text="联系助手处理"/>
+
+            <TextView
+                android:id="@+id/desc2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text2"
+                android:layout_marginLeft="7.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/icon2"
+                android:textColor="#aaaaaa"
+                android:textSize="14sp"
+                tools:text="告知助手取消原因，助手会尽快帮你处理"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        tools:text="取消订单"/>
+        android:layout_above="@+id/space"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/close_window"/>
 
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:textColor="#aaaaaa"
-        android:textSize="16sp"
-        tools:text="请选择您取消订单的原因"/>
-
-    <RelativeLayout
-        android:id="@+id/layout1"
-        android:layout_marginTop="10dp"
+    <Space
+        android:id="@+id/space"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout2"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

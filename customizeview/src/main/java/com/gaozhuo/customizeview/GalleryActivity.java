@@ -1,18 +1,14 @@
 package com.gaozhuo.customizeview;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.gaozhuo.customizeview.adapter.GalleryAdapter;
-import com.gaozhuo.customizeview.adapter.MyAdapter;
-import com.gaozhuo.customizeview.views.DividerItemDecoration;
 import com.gaozhuo.customizeview.views.GridDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -47,8 +43,12 @@ public class GalleryActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-                ImageViewerActivity.openUI(GalleryActivity.this, mData.get(position), imageView);
+                //ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+                //ImageViewerActivity.openUI(GalleryActivity.this, mData.get(position), imageView);
+                Intent intent = new Intent(GalleryActivity.this, MultiImageViewerActivity.class);
+                intent.putExtra("position", position);
+                intent.putStringArrayListExtra("imageUrls", (ArrayList<String>) mData);
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
