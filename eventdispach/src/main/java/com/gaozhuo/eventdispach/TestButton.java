@@ -23,8 +23,7 @@ public class TestButton extends Button {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i("gaozhuo", "TestButton onTouchEvent-- action=" + event.getAction());
-        //return super.onTouchEvent(event);
-        return true;
+        return super.onTouchEvent(event);
 
     }
 

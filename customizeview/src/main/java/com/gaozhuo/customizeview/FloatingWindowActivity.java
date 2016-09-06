@@ -19,8 +19,8 @@ public class FloatingWindowActivity extends AppCompatActivity {
         findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //mFloatingView.show();
-                Log.d("gaozhuo", "model=" + DeviceUtils.getModel());
+               mFloatingView.show();
+               // Log.d("gaozhuo", "model=" + DeviceUtils.getModel());
 
             }
         });

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("Gallery");
         mData.add("SwipeDeleteList");
         mData.add("Custom Dialog");
+        mData.add("StickyHeaderExpandableListView");
     }
 
     private void initView() {
@@ -98,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 9:
                 intent = new Intent(MainActivity.this, DialogActivity.class);
+                startActivity(intent);
+                break;
+            case 10:
+                intent = new Intent(MainActivity.this, StickyHeaderExpandableListViewActivity.class);
                 startActivity(intent);
                 break;
         }

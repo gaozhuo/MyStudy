@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.lang.annotation.Retention;
+
 public class ViewEventActivity extends Activity implements View.OnTouchListener, View.OnClickListener {
     private LinearLayout mLayout;
     private Button mButton;
@@ -51,7 +53,10 @@ public class ViewEventActivity extends Activity implements View.OnTouchListener,
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //Log.i("gaozhuo", "MainActivity--dispatchTouchEvent--action=" + ev.getAction());
-        return super.dispatchTouchEvent(ev);
+        boolean b = super.dispatchTouchEvent(ev);
+        Log.d("gaozhuo", "MainActivity dispatchTouchEvent b = " + b);
+
+        return b;
     }
 
     @Override

@@ -261,7 +261,8 @@ public class FloatingView extends LinearLayout {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        params.type = WindowManager.LayoutParams.TYPE_PHONE;
+        //params.type = WindowManager.LayoutParams.TYPE_PHONE;
+        params.type = WindowManager.LayoutParams.TYPE_TOAST;
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         params.format = PixelFormat.TRANSLUCENT;
         params.x = 100;
