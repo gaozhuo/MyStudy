@@ -35,7 +35,6 @@ public class HorizontalScrollViewExActivity extends AppCompatActivity {
             layout.getLayoutParams().width = screenWidth;
             TextView textView = (TextView) layout.findViewById(R.id.title);
             textView.setText("page " + (i + 1));
-            layout.setBackgroundColor(Color.rgb(255 / (i + 1), 255 / (i + 1), 0));
             createList(layout);
             mHorizontalScrollViewEx.addView(layout);
         }
