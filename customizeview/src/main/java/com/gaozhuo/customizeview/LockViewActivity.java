@@ -18,7 +18,7 @@ public class LockViewActivity extends AppCompatActivity {
             @Override
             public boolean password(String password) {
                 Toast.makeText(LockViewActivity.this, password, Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         });
     }
